@@ -9,10 +9,10 @@ import { addCoursesToCart } from '@/app/slices/purchaseSlice';
 function CardHoverContent({ course }) {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
+
     const handleAddToCart = () => {
         setLoading(true);
 
-        // Change: Pass the course._id directly, no need for an object
         dispatch(addCoursesToCart(course._id))
             .then((res) => {
                 if (res.payload) {
@@ -59,22 +59,19 @@ function CardHoverContent({ course }) {
             </div>
             <p className=" text-xs line-clamp-3">{course.description}</p>
             <div className="flex justify-between items-center">
-                <Button className="text-xs px-3 py-1">
-                    <ShoppingCart className="size-[14px] mr-2" />
-                    <Button
-                        className="text-xs px-3 py-1"
-                        onClick={handleAddToCart}
-                        disabled={loading}
-                    >
-                        {loading ? (
-                            <span>Adding...</span>
-                        ) : (
-                            <>
-                                <ShoppingCart className="size-[14px] mr-2" />
-                                <span>Buy</span>
-                            </>
-                        )}
-                    </Button>
+                <Button
+                    className="text-xs px-3 py-1"
+                    onClick={handleAddToCart}
+                    disabled={loading}
+                >
+                    {loading ? (
+                        <span>Adding...</span>
+                    ) : (
+                        <>
+                            <ShoppingCart className="size-[14px] mr-2" />
+                            <span>Add to Cart</span>
+                        </>
+                    )}
                 </Button>
             </div>
         </div>

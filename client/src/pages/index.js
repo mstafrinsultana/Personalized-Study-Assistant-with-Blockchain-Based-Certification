@@ -5,7 +5,7 @@ import SignUp from './Auth/SignUp';
 import UserDashboard from './Dashboard/UserDashboard';
 import AdminDashboard from './Dashboard/AdminDashboard';
 import About from './About';
-import Certificate from './Certificate';
+import Certificate from './Certificate/Certificate';
 import Explore from './Explore';
 import AddCourse from './InstructorPages/AddCourse';
 import AllCourses from './InstructorPages/AllCourses';
@@ -17,10 +17,12 @@ import CourseLearning from './CourseLearning';
 import CourseExplore from './CourseExplore';
 import PublicVideos from './InstructorPages/PublicVideos';
 import WelcomePage from './WelcomePage';
-import UserGoals from './UserGoals';
+import UserGoals from './Goals/UserGoals';
 import PublicVideoWatch from './PublicVideoWatch';
-import GoalSkills from './GoalSkills';
+import GoalSkills from './Goals/GoalSkills';
+import GenerateCertificate from './Certificate/GenerateCertificate';
 export {
+    GenerateCertificate,
     GoalSkills,
     PublicVideoWatch,
     TestingPage,

@@ -8,8 +8,9 @@ router.use(verifyJWT);
 router
     .route('/cart')
     .get(purchaseController.getCartCourses)
-    .post(purchaseController.addCoursesToCart)
-    .delete(purchaseController.removeCourseFromCart);
+    .post(purchaseController.addCoursesToCart);
+
+router.route('/cart/:courseId').delete(purchaseController.removeCourseFromCart);
 
 router
     .route('/')
@@ -18,6 +19,6 @@ router
 
 router
     .route('/cert/:courseId')
-    .patch(purchaseController.updateCertificateEligibility);
+    .patch(purchaseController.updateHasCertificateStatus);
 
 export default router;

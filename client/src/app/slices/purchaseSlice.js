@@ -19,11 +19,10 @@ export const getCartCourses = createAsyncThunk(
     async () => {
         try {
             const response = await axiosConfig.get('/purchase/cart');
-            console.log(response)
-            return response.data;
+            return response.data.data;
         } catch (error) {
-            toastErrorMessage(error.message);
-            return toastErrorMessage("Something went wrong while fetching cart courses");
+            toastErrorMessage('Failed to cart courses', error);
+            return null;
         }
     }
 );
@@ -31,16 +30,17 @@ export const getCartCourses = createAsyncThunk(
 // Add courses to cart
 export const addCoursesToCart = createAsyncThunk(
     'purchase/addCoursesToCart',
-    async ( courseId ) => {
-        console.log("courseId : ",courseId);
+    async (courseId) => {
+        console.log('courseId : ', courseId);
         try {
-            const response = await axiosConfig.post('/purchase/cart', { courseIds: [courseId] });
-            console.log(response.data)
+            const response = await axiosConfig.post('/purchase/cart', {
+                courseIds: [courseId],
+            });
             toastSuccessMessage('Course added to cart successfully');
-            return response.data;
+            return response.data.data;
         } catch (error) {
             toastErrorMessage('Course adding Failed', error);
-            return null
+            return null;
         }
     }
 );
@@ -50,12 +50,14 @@ export const removeCourseFromCart = createAsyncThunk(
     'purchase/removeCourseFromCart',
     async (courseId) => {
         try {
-            const response = await axiosConfig.delete(`/purchase/cart/${courseId}`);
-            toastSuccessMessage('Course removed from cart');
-            return response.data;
+            const response = await axiosConfig.delete(
+                `/purchase/cart/${courseId}`
+            );
+            toastSuccessMessage('Course removed from cart', response);
+            return response.data.data;
         } catch (error) {
-            toastErrorMessage(error.message);
-            return null
+            toastErrorMessage('Failed to remove from cart', error);
+            return null;
         }
     }
 );
@@ -65,11 +67,11 @@ export const getPurchasedCourses = createAsyncThunk(
     'purchase/getPurchasedCourses',
     async () => {
         try {
-            const response = await axiosConfig.get('/');
-            return response.data;
+            const response = await axiosConfig.get('/purchase');
+            return response.data.data;
         } catch (error) {
-            toastErrorMessage(error.message);
-            return null
+            toastErrorMessage('Failed to Get purchased courses', error);
+            return null;
         }
     }
 );
@@ -78,14 +80,13 @@ export const getPurchasedCourses = createAsyncThunk(
 export const addCourse = createAsyncThunk(
     'purchase/addCourse',
     async (courseData) => {
-        console.log(courseData)
         try {
-            const response = await axiosConfig.post('/purchase', { courseIds: [courseData] });
-            toastSuccessMessage('Course purchased successfully');
+            const response = await axiosConfig.post('/purchase', courseData);
+            toastSuccessMessage('Course purchased successfully', response);
             return response.data;
         } catch (error) {
-            toastErrorMessage(error.message);
-            return null
+            toastErrorMessage('Failed to Purchased Course', error);
+            return null;
         }
     }
 );
@@ -104,10 +105,11 @@ const purchaseSlice = createSlice({
             // Handle getCartCourses
             .addCase(getCartCourses.pending, (state) => {
                 state.loading = true;
+                state.cartData = null;
             })
             .addCase(getCartCourses.fulfilled, (state, action) => {
                 state.loading = false;
-                state.cartData = action.payload.data;
+                state.cartData = action.payload;
                 state.error = null;
             })
             .addCase(getCartCourses.rejected, (state, action) => {
@@ -133,7 +135,10 @@ const purchaseSlice = createSlice({
             })
             .addCase(removeCourseFromCart.fulfilled, (state, action) => {
                 state.loading = false;
-                state.cartData = action.payload;
+                const removedCourses = action.payload;
+                state.cartData = state.cartData.filter(
+                    (course) => !removedCourses.includes(course.course?._id)
+                );
                 state.error = null;
             })
             .addCase(removeCourseFromCart.rejected, (state, action) => {
@@ -159,7 +164,11 @@ const purchaseSlice = createSlice({
             })
             .addCase(addCourse.fulfilled, (state, action) => {
                 state.loading = false;
-                state.purchasedCourses = action.payload;
+                const courseIds = action.payload.data;
+                console.log(courseIds);
+                state.cartData = state.cartData.filter(
+                    (course) => !courseIds.includes(course.course?._id)
+                );
                 state.error = null;
             })
             .addCase(addCourse.rejected, (state, action) => {

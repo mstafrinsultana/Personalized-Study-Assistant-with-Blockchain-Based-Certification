@@ -19,6 +19,7 @@ import { useUserGoals } from '@/hooks';
 import { useDispatch } from 'react-redux';
 import { Badge } from '@/components/ui/badge';
 import { topics } from '@/app/slices/quizSlice';
+import { useEffect, useState } from 'react';
 
 export default function GoalSkills() {
     const { goalId } = useParams();
@@ -26,12 +27,21 @@ export default function GoalSkills() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const [goal, setGoal] = useState(null);
+
     const handleClick = (topic) => {
         dispatch(topics({ topicsData: [topic.name] }));
         navigate(`/quiz`);
     };
 
-    if (loading || !goals?.length) return <div>Loading...</div>;
+    useEffect(() => {
+        if (goals?.length) {
+            const filteredGoal = goals.find((goal) => goal._id === goalId);
+            if (filteredGoal) setGoal(() => filteredGoal);
+        }
+    }, [goals]);
+
+    if (loading || !goal) return <div>Loading...</div>;
 
     return (
         <div className="pt-10 flex items-start justify-center">
@@ -59,7 +69,7 @@ export default function GoalSkills() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {goals[0].topics?.map((topic) => (
+                            {goal?.topics?.map((topic) => (
                                 <TableRow key={topic.id}>
                                     <TableCell className="flex gap-1 justify-center text-center">
                                         <Badge

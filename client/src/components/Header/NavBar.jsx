@@ -38,6 +38,26 @@ const NavBar = () => {
             label: 'Dashboard',
             path: '/admin-dashboard',
         },
+        {
+            label: 'Dashboard',
+            path: '/user-dashboard',
+        },
+        {
+            label: 'Explore',
+            path: '/explore',
+        },
+        {
+            label: 'Courses',
+            path: '/courses',
+        },
+        {
+            label: 'Testing',
+            path: '/testing',
+        },
+        {
+            label: 'Instructor',
+            path: '/instructor/dashboard',
+        },
     ];
 
     const withAuthNavItemsForUser = [
@@ -161,8 +181,15 @@ const NavBar = () => {
                     </div>
                 </form>
                 {/* Cart */}
-                <Button size="icon" variant="ghost" className="relative">
-                    <ShoppingCart />
+                <Button
+                    asChild
+                    size="icon"
+                    variant="ghost"
+                    className="relative"
+                >
+                    <Link to={`/cart`}>
+                        <ShoppingCart />
+                    </Link>
                 </Button>
                 {/* THEME */}
                 <ModeToggle />

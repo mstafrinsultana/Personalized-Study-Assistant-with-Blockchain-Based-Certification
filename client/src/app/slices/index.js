@@ -6,6 +6,7 @@ import allCourseSlice from './allCourseSlice';
 import videoSlice from './videoSlice';
 import quizSlice from './quizSlice';
 import purchaseSlice from './purchaseSlice';
+import certificateSlice from './certificateSlice';
 
 export {
     authSlice,
@@ -16,4 +17,5 @@ export {
     videoSlice,
     quizSlice,
     purchaseSlice,
+    certificateSlice,
 };

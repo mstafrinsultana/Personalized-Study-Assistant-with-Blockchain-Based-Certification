@@ -14,7 +14,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { ExternalLink, Download } from 'lucide-react';
 import Web3 from 'web3';
-import CertiABI from '../../certificate.json';
+import CertiABI from '../../../certificate.json';
 import axios from 'axios';
 
 // Mock function to simulate certificate verification

@@ -93,7 +93,7 @@ export default function UserGoals() {
                                         </Link>
                                     </TableCell>
                                     <TableCell className="flex gap-1 w-fit">
-                                        {goal.topics.map((topic) => (
+                                        {goal.topics?.map((topic) => (
                                             <Badge
                                                 key={topic._id}
                                                 className="rounded-full"

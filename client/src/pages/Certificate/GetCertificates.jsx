@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,7 +9,7 @@ import {
 } from '@/components/ui/card';
 import { Wallet, Download, ExternalLink } from 'lucide-react';
 import Web3 from 'web3';
-import CertiABI from '../../certificate.json';
+import CertiABI from '../../../certificate.json';
 import axios from 'axios';
 
 // Mock data for certificates
@@ -20,7 +18,7 @@ const mockCertificates = [
         id: 'CERT123',
         name: 'Web Development Certificate',
         issueDate: '2023-05-15',
-        imageUrl: '/placeholder.svg?height=200&width=300',
+        imageUrl: 'https://tomato-geographical-pig-904.mypinata.cloud/ipfs/QmZ',
     },
     {
         id: 'CERT456',

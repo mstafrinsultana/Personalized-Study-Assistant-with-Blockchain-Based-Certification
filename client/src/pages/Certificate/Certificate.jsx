@@ -1,14 +1,17 @@
 import { APP_NAME } from '@/constant';
 import html2canvas from 'html2canvas';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Web3 from 'web3';
-import CertiABI from '../../certificate.json';
+import CertiABI from '../../../certificate.json';
+import { toastMessage } from '@/App';
+import { axiosConfig, toastErrorMessage, toastSuccessMessage } from '@/utils';
+import axios from 'axios';
 
 const JWT = import.meta.env.VITE_IPFS_JWT;
 
 function Certificate({
     name = 'John Doe',
-    university = 'GTU',
+    university = 'Gujrat Technological University',
     course = 'Web Development',
     issueDate = 'June 4, 2022',
     courseID = '1245',
@@ -33,7 +36,7 @@ function Certificate({
                 {
                     maxBodyLength: 'Infinity',
                     headers: {
-                        'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+                        'Content-Type': `multipart/form-data; boundary=${image._boundary}`,
                         Authorization: JWT,
                     },
                 }
@@ -107,7 +110,22 @@ function Certificate({
         console.log('res.data', res.data.IpfsHash);
         const res2 = await uploadMetadatatoIPFS(res.data.IpfsHash);
         await contractCall(res2.data.IpfsHash);
+        toastMessage({
+            title: 'Certificate Registered Successfully',
+        });
+
+        try {
+            const res = await axiosConfig.post(`/purchase/cert/${courseID}`);
+            toastSuccessMessage('Certificate saved Successfully', res);
+        } catch (error) {
+            toastErrorMessage('Failed to Save in backend server', error);
+        }
     };
+
+    useEffect(() => {
+        generateCertificate();
+    }, []);
+
     return (
         <>
             <div

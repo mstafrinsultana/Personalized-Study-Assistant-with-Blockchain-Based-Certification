@@ -6,8 +6,6 @@ import { createGoogleGenerativeAI } from '@ai-sdk/google';
 const createQuiz = asyncHandler(async (req, res) => {
     const { topics } = req.body;
 
-    console.log({topics});
-
     if (!Array.isArray(topics) || topics.length === 0) {
         return handleResponse(
             res,
@@ -16,6 +14,7 @@ const createQuiz = asyncHandler(async (req, res) => {
             'Topics must be a non-empty array'
         );
     }
+
     const google = createGoogleGenerativeAI({
         apiKey: process.env.GOOGLE_GENERATIVE_API_KEY,
     });
@@ -30,12 +29,12 @@ const createQuiz = asyncHandler(async (req, res) => {
 
     	    The Quiz should be in the form of Array.in which the options could be array of four options.
 
-    		1. Create 55-60 questions covering all the topics in the transcription.
+    		1. Create 20-25 questions covering all the topics in the transcription.
             2. Each question should have four options, with one correct answer.
             3. Provide a short explanation for the correct answer.
             4. Randomize the position of the correct answer to avoid patterns.
     		6. Do not make quiz on specific video.
-            7. Make difficulty level as medium level.
+            7. Make difficulty level as hard level.
             5. Format each question as a JSON object as follows:
 
     		{

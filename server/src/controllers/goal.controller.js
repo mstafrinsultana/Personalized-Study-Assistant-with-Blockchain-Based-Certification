@@ -13,7 +13,6 @@ import mongoose from 'mongoose';
 
 const createGoal = asyncHandler(async (req, res) => {
     const { name, topics, startDate, endDate } = req.body;
-    console.log({ name, topics, startDate, endDate });
 
     validateFields(req, ['name', 'topics']);
 
@@ -26,13 +25,13 @@ const createGoal = asyncHandler(async (req, res) => {
 
     await goal.save();
 
-    const { topicIds } = await getTopics(topics);
+    const { topics: goalTopics, topicIds } = await getTopics(topics);
     await topicList.saveGoalTopics(goal._id, topicIds);
 
     return handleResponse(
         res,
         StatusCodes.CREATED,
-        goal,
+        { ...goal._doc, topics: goalTopics },
         'Goal Created Successfully'
     );
 });
