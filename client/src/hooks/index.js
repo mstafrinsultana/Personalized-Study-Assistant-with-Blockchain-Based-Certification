@@ -11,8 +11,10 @@ import useAllCourses from './useAllCourses';
 import useAllVideos from './useAllVideos';
 import useAllPublicVideos from './useAllPublicVideos';
 import useUserGoals from './useUserGoals';
+import useDashboardCardsData from './useDashboardCardsData';
 
 export {
+    useDashboardCardsData,
     useUserGoals,
     useCustomForm,
     useAuthRedirect,

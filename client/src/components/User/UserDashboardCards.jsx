@@ -1,7 +1,10 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { UserDashboardCardSkeleton } from './Skeletons';
 
 function UserDashboardCards({ card, index }) {
+    if (!card) return <UserDashboardCardSkeleton index={index} />;
+
     return (
         <Card key={index} x-chunk={`dashboard-01-chunk-${index + 1}`}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

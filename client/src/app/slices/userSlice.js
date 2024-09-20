@@ -32,6 +32,19 @@ export const signUp = createAsyncThunk(
     }
 );
 
+export const getUserDashboardCards = createAsyncThunk(
+    'user/getUserDashboardCards',
+    async () => {
+        try {
+            const response = await axiosConfig.get('/dashboard/user/cards');
+            return response.data.data;
+        } catch (error) {
+            toastErrorMessage('Failed to fetch dashboard cards', error);
+            return null;
+        }
+    }
+);
+
 const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -48,6 +61,20 @@ const userSlice = createSlice({
             state.userData = action.payload;
         });
         builder.addCase(signUp.rejected, (state) => {
+            state.loading = false;
+            state.status = false;
+        });
+        // getUserDashboardCards
+        builder.addCase(getUserDashboardCards.pending, (state) => {
+            state.loading = true;
+            state.status = false;
+        });
+        builder.addCase(getUserDashboardCards.fulfilled, (state, action) => {
+            state.loading = false;
+            state.status = true;
+            state.userData.dashboardCardsData = action.payload;
+        });
+        builder.addCase(getUserDashboardCards.rejected, (state) => {
             state.loading = false;
             state.status = false;
         });

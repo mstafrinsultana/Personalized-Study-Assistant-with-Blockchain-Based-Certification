@@ -9,13 +9,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
 import { PublicVideosTable } from '@/components';
 import { useAllPublicVideos, useCourseDataInstructor } from '@/hooks';
 import { formate } from '@/utils';
@@ -32,8 +25,8 @@ import {
 } from '@/components/ui/dialog';
 import { useDispatch } from 'react-redux';
 import { deletePublicVideo, updatePublicVideo } from '@/app/slices/videoSlice';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Badge } from '@/components/ui/badge';
 
 export const columns = [
     {
@@ -88,32 +81,32 @@ export const columns = [
                 dispatch(updatePublicVideo({ ...data, videoId: video._id }));
 
             return (
-                <Select
-                    onValueChange={(value) => {
-                        onSubmit({ status: value });
-                    }}
-                    defaultValue={video.status}
-                >
-                    <SelectTrigger className="w-fit h-8 px-2 text-xs mr-2">
-                        <SelectValue
-                            className="h-2"
-                            placeholder="Select Publish Status"
-                        />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="public">Public</SelectItem>
-                        {video.section && (
-                            <SelectItem value="private">Private</SelectItem>
-                        )}
-                        <SelectItem value="unpublished">UnPublished</SelectItem>
-                    </SelectContent>
-                </Select>
+                //     <Select
+                //         onValueChange={(value) => {
+                //             onSubmit({ status: value });
+                //         }}
+                //         defaultValue={video.status}
+                //     >
+                //         <SelectTrigger className="w-fit h-8 px-2 text-xs mr-2">
+                //             <SelectValue
+                //                 className="h-2"
+                //                 placeholder="Select Publish Status"
+                //             />
+                //         </SelectTrigger>
+                //         <SelectContent>
+                //             <SelectItem value="public">Public</SelectItem>
+                //             {video.section && (
+                //                 <SelectItem value="private">Private</SelectItem>
+                //             )}
+                //             <SelectItem value="unpublished">UnPublished</SelectItem>
+                //         </SelectContent>
+                //     </Select>
+                // );
+                // (
+                <Badge variant="outline" className="capitalize">
+                    {row.getValue('status')}
+                </Badge>
             );
-            // (
-            //     <Badge variant="outline" className="capitalize">
-            //         {row.getValue('status')}
-            //     </Badge>
-            // );
         },
     },
     {
@@ -142,6 +135,7 @@ export const columns = [
         enableHiding: false,
         cell: ({ row }) => {
             const dispatch = useDispatch();
+            const navigate = useNavigate();
             const video = row.original;
             const handleDelete = () => dispatch(deletePublicVideo(video._id));
 
@@ -157,8 +151,16 @@ export const columns = [
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>View</DropdownMenuItem>
-                            <DropdownMenuItem>Edit</DropdownMenuItem>
+                            <DropdownMenuItem
+                                onClick={() => navigate(`/videos/${video._id}`)}
+                            >
+                                View
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                onClick={() => navigate(`${video._id}`)}
+                            >
+                                Edit
+                            </DropdownMenuItem>
                             <DialogTrigger asChild>
                                 <DropdownMenuItem className="text-destructive">
                                     Delete

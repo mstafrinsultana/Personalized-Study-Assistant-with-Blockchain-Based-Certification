@@ -10,7 +10,8 @@ import videoController from './video.controller.js';
 import sectionContent from './sectionContent.js';
 import topicList from './topicList.js';
 import goalController from './goal.controller.js';
-import quizController from "./quiz.controller.js"
+import quizController from './quiz.controller.js';
+import userDashboardController from './userDashboard.controller.js';
 
 export {
     checkHealth,
@@ -25,5 +26,6 @@ export {
     goalController,
     sectionContent,
     topicList,
-    quizController
+    quizController,
+    userDashboardController,
 };
