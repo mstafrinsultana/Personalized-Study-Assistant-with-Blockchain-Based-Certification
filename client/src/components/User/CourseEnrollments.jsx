@@ -38,7 +38,7 @@ export default function CourseEnrollments() {
         dispatch(getPurchasedCourses());
     }, []);
 
-    const getCertificate = async (courseName, courseID) => {
+    const getCertificate = async (courseName, courseID, hasCertificate) => {
         const { fullName, university } = userData;
 
         dispatch(
@@ -48,6 +48,7 @@ export default function CourseEnrollments() {
                 course: courseName,
                 issueDate: new Date().toDateString(),
                 courseID: courseID,
+                hasCertificate: hasCertificate,
             })
         );
 
@@ -133,7 +134,8 @@ export default function CourseEnrollments() {
                                                 onClick={() =>
                                                     getCertificate(
                                                         course.name,
-                                                        course._id
+                                                        course._id,
+                                                        hasCertificate
                                                     )
                                                 }
                                                 className="text-xs"

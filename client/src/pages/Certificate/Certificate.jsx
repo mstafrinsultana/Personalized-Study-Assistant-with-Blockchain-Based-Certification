@@ -6,6 +6,7 @@ import CertiABI from '../../../certificate.json';
 import { toastMessage } from '@/App';
 import { axiosConfig, toastErrorMessage, toastSuccessMessage } from '@/utils';
 import axios from 'axios';
+import { data } from 'autoprefixer';
 
 const JWT = import.meta.env.VITE_IPFS_JWT;
 
@@ -15,6 +16,7 @@ function Certificate({
     course = 'Web Development',
     issueDate = 'June 4, 2022',
     courseID = '1245',
+    hasCertificate = 'true',
 }) {
     const getImgData = async () => {
         const capture = document.querySelector('.certificate-container');
@@ -25,6 +27,7 @@ function Certificate({
     };
 
     const uploadimgToIPFS = async (imgData) => {
+        console.log(JWT);
         const image = new FormData();
         const imageData = await fetch(imgData);
         const blob = await imageData.blob();
@@ -56,7 +59,7 @@ function Certificate({
                     'https://tomato-geographical-pig-904.mypinata.cloud/ipfs/' +
                     hash,
                 attributes: [
-                    { trait_type: 'CourseName', value: instituteName },
+                    { trait_type: 'CourseName', value: course },
                     { trait_type: 'Date', value: issueDate },
                 ],
             },
@@ -88,16 +91,16 @@ function Certificate({
             const accounts = await window.ethereum.request({
                 method: 'eth_requestAccounts',
             });
+            console.log(courseID, hash);
 
             const web3 = new Web3(window.ethereum);
             const contract = new web3.eth.Contract(CertiABI, contractAddress);
-            const transaction = await contract.methods
-                .awardItem(
-                    courseID,
-                    'https://tomato-geographical-pig-904.mypinata.cloud/ipfs/' +
-                        hash
-                )
-                .send({ from: accounts[0] });
+            await contract.methods.awardItem(hash).send({ from: accounts[0] });
+
+            const certificateIssue = contract.events.CertificateIssued();
+            certificateIssue.on('data', (event) => {
+                console.log(event);
+            });
         } catch (error) {
             console.log(error);
         }
@@ -123,8 +126,10 @@ function Certificate({
     };
 
     useEffect(() => {
-        generateCertificate();
-    }, []);
+        if (!hasCertificate) {
+            generateCertificate();
+        }
+    }, [courseID]);
 
     return (
         <>

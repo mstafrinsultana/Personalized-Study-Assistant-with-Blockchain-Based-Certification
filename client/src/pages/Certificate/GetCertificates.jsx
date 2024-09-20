@@ -40,6 +40,7 @@ export default function CertificateGallery() {
     const [isWalletConnected, setIsWalletConnected] = useState(false);
     const [certificates, setCertificates] = useState([]);
     const [walletAddress, setWalletAddress] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const connectWallet = async () => {
         // Simulate wallet connection
@@ -48,31 +49,39 @@ export default function CertificateGallery() {
                 // const accounts = await window.etherum.request({
                 //     method: 'eth_requestAccounts',
                 // });
+                setIsLoading(true);
                 const web3 = new Web3(window.ethereum);
                 const accounts = await web3.eth.getAccounts();
                 console.log(accounts);
                 setWalletAddress(accounts[0]);
 
                 setIsWalletConnected(true);
+                setIsLoading(false);
             } else {
-                console.log('Else');
+                throw error();
             }
         } catch (e) {
             console.log(e);
             alert('wallet not installed');
+            setIsLoading(false);
         }
     };
 
     const getCertificates = async () => {
+        setIsLoading(true);
         try {
-            const web3 = new Web3(window.ethereum);
+            const web3 = new Web3(
+                'https://eth-sepolia.g.alchemy.com/v2/mrW-uuxW0vPTdvSodUTJs_rnmjKAP9fc'
+            );
             const contract = new web3.eth.Contract(CertiABI, contractAddress);
             const res = await contract.methods
                 .getCertificates(walletAddress)
                 .call();
             await getCertificateData(res);
+            setIsLoading(false);
         } catch (e) {
             alert(e);
+            setIsLoading(false);
         }
     };
 
@@ -85,7 +94,9 @@ export default function CertificateGallery() {
 
     const getCertificateData = async (certificateIDs) => {
         try {
-            const web3 = new Web3(window.ethereum);
+            const web3 = new Web3(
+                'https://eth-sepolia.g.alchemy.com/v2/mrW-uuxW0vPTdvSodUTJs_rnmjKAP9fc'
+            );
             const contract = new web3.eth.Contract(CertiABI, contractAddress);
             const certificateURLPromises = certificateIDs.map(
                 (certificateId) => {
@@ -108,18 +119,19 @@ export default function CertificateGallery() {
             console.log('certificare array', certificatesDataArray);
             let i = 0;
             const finalData = certificatesDataArray.map((certificate) => {
+                console.log(certificateIDs);
                 return {
+                    course: certificate.data.attributes[0].value,
                     image:
                         'https://tomato-geographical-pig-904.mypinata.cloud/ipfs/' +
                         certificate.data.image.split('/')[4],
-                    id: certificateIDs[i++],
+                    certid: certificateIDs[i++],
                     description: certificate.data.description,
                 };
             });
-            // console.log("certificare",finalData);
+            console.log('certificare', finalData[0].certid);
             setCertificates(finalData);
             // console.log(finalData);
-            // setLoading(false);
         } catch (error) {
             console.error('Error fetching certificate data:', error);
         }
@@ -134,7 +146,9 @@ export default function CertificateGallery() {
         window.open(certificate.image, '_blank');
     };
 
-    return (
+    return isLoading ? (
+        <p>Loading ...</p>
+    ) : (
         <div className="container mx-auto px-4 py-8">
             <h1 className="text-3xl font-bold mb-6">Your Certificates</h1>
 
@@ -145,9 +159,9 @@ export default function CertificateGallery() {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {certificates.map((cert) => (
-                        <Card key={cert.id} className="flex flex-col">
+                        <Card key={cert.certid} className="flex flex-col">
                             <CardHeader>
-                                <CardTitle>{cert.name}</CardTitle>
+                                <CardTitle>{cert.course}</CardTitle>
                             </CardHeader>
                             <CardContent className="flex-grow">
                                 <img
@@ -157,6 +171,11 @@ export default function CertificateGallery() {
                                 />
                                 <p className="mt-2 text-sm text-gray-600">
                                     Description: {cert.description}
+                                </p>
+                                <p className="mt-2 text-sm text-gray-600">
+                                    Certificate ID:
+                                    0x9393653073A29c14a17AaB3969127F8428C16761/
+                                    {cert.certid.toString()}
                                 </p>
                             </CardContent>
                             <CardFooter className="flex justify-between">

@@ -39,8 +39,11 @@ const verifyCertificate = async (id) => {
     }
 
     const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
+    console.log(contractAddress);
     try {
-        const web3 = new Web3(window.ethereum);
+        const web3 = new Web3(
+            'https://eth-sepolia.g.alchemy.com/v2/mrW-uuxW0vPTdvSodUTJs_rnmjKAP9fc'
+        );
         const contract = new web3.eth.Contract(CertiABI, contractAddress);
         console.log(id.split('/')[1]);
         const url = await contract.methods.tokenURI(id.split('/')[1]).call();
@@ -54,10 +57,10 @@ const verifyCertificate = async (id) => {
             id: id,
             imageUrl: res.data.image,
             blockExplorerLink:
-                'https://sepolia.etherscan.io/nft/0x1f83f0edb2f818fbe858a77070f929b375162b8c/' +
+                'https://sepolia.etherscan.io/nft/0x9393653073A29c14a17AaB3969127F8428C16761/' +
                 parseInt(id.split('/')[1]),
             openSeaLink:
-                'https://testnets.opensea.io/assets/sepolia/0x1f83f0edb2f818fbe858a77070f929b375162b8c/' +
+                'https://testnets.opensea.io/assets/sepolia/0x9393653073A29c14a17AaB3969127F8428C16761/' +
                 parseInt(id.split('/')[1]),
         };
         return data;
