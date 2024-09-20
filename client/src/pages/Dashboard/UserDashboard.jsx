@@ -12,8 +12,6 @@ function UserDashboard() {
     const { dashboardCards } = useDashboardCardsData();
     const { userData } = useSelector(({ auth }) => auth);
 
-    console.log('dashboardCards: ', dashboardCards);
-
     return (
         <div className="flex flex-col h-fit w-full">
             <header className="flex flex-col gap-1 justify-between p-3 px-8">
