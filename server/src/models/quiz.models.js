@@ -1,18 +1,31 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
+import { QUIZ_TYPE } from '../constants.js';
 
-const QuizSchema = new Schema(
+const { Schema, model } = mongoose;
+
+const quizSchema = new Schema(
     {
-        title: {
+        name: {
             type: String,
             required: true,
         },
-        goal: {
-            type: Schema.Types.ObjectId,
-            ref: 'Goal',
+        type: {
+            type: String,
+            enum: QUIZ_TYPE,
             required: true,
+        },
+        course: {
+            type: Schema.Types.ObjectId,
+            ref: 'Course',
+            required: false,
+        },
+        topic: {
+            type: Schema.Types.ObjectId,
+            ref: 'Topic',
+            required: false,
         },
     },
     { timestamps: true }
 );
 
-export const Quiz = mongoose.model('Quiz', QuizSchema);
+export const Quiz = model('Quiz', quizSchema);

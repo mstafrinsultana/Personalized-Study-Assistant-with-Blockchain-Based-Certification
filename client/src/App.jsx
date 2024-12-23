@@ -2,7 +2,6 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import {
     About,
-    Certificate,
     AdminDashboard,
     Home,
     SignIn,
@@ -27,7 +26,6 @@ import {
 } from './pages';
 import { Toaster } from './components/ui/toaster';
 import {
-    Container,
     CourseCurriculum,
     CourseForm,
     CourseMainSection,
@@ -37,7 +35,6 @@ import {
     FirstLoading,
     InstructorContainer,
     RootContainer,
-    SetGoal,
 } from './components';
 import { useToast } from '@/components/ui/use-toast';
 import { useInitialLoading } from './hooks';

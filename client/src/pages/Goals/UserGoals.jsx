@@ -38,6 +38,7 @@ import { useUserGoals } from '@/hooks';
 import { useDispatch } from 'react-redux';
 import { deleteGoal } from '@/app/slices/authSlice';
 import { Badge } from '@/components/ui/badge';
+import { AiFillBulb } from 'react-icons/ai';
 
 export default function UserGoals() {
     const { goals } = useUserGoals();
@@ -127,6 +128,24 @@ export default function UserGoals() {
                                                 </Button>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end">
+                                                <DropdownMenuItem asChild>
+                                                    <Button
+                                                        asChild
+                                                        variant="ghost"
+                                                        size="small"
+                                                    >
+                                                        <Link
+                                                            to={`/goals/${goal._id}/skills`}
+                                                        >
+                                                            <span className="flex">
+                                                                <AiFillBulb className="mr-2 h-4 w-4" />
+                                                                <span>
+                                                                    Quiz
+                                                                </span>
+                                                            </span>
+                                                        </Link>
+                                                    </Button>
+                                                </DropdownMenuItem>
                                                 <DropdownMenuItem asChild>
                                                     <Button
                                                         asChild

@@ -7,7 +7,7 @@ import { Menu, Package2, Search, ShoppingCart } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { ModeToggle } from '../mode-toggle';
-import { ProfileDropdown } from '..';
+import { CartComponent, ProfileDropdown } from '..';
 
 const NavBar = () => {
     const withoutAuthNavItems = [
@@ -180,19 +180,13 @@ const NavBar = () => {
                         />
                     </div>
                 </form>
+
                 {/* Cart */}
-                <Button
-                    asChild
-                    size="icon"
-                    variant="ghost"
-                    className="relative"
-                >
-                    <Link to={`/cart`}>
-                        <ShoppingCart />
-                    </Link>
-                </Button>
+                <CartComponent />
+
                 {/* THEME */}
                 <ModeToggle />
+
                 {/* PROFILE DROPDOWN */}
                 {userData ? (
                     <ProfileDropdown />

@@ -13,8 +13,11 @@ import { CourseSections } from './CourseSections.models.js';
 import { SectionContent } from './sectionContent.models.js';
 import { TopicList } from './topicList.models.js';
 import { Cart } from './cart.models.js';
+import { QuizResult } from './quizResult.models.js';
+
 export {
     Cart,
+    QuizResult,
     Auth,
     Course,
     Goal,

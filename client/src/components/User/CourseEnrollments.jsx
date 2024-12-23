@@ -125,6 +125,7 @@ export default function CourseEnrollments() {
                                                 onClick={() =>
                                                     viewCertificate(course._id)
                                                 }
+                                                variant="outline"
                                                 className="text-xs"
                                             >
                                                 View Certificate
@@ -139,7 +140,6 @@ export default function CourseEnrollments() {
                                                     )
                                                 }
                                                 className="text-xs"
-                                                variant="outline"
                                                 disabled={
                                                     progress <
                                                     CERTIFICATE_ELIGIBILITY_PERCENTAGE

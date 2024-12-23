@@ -12,6 +12,7 @@ import topicList from './topicList.js';
 import goalController from './goal.controller.js';
 import quizController from './quiz.controller.js';
 import userDashboardController from './userDashboard.controller.js';
+import quizResultController from './quizResult.controller.js';
 
 export {
     checkHealth,
@@ -27,5 +28,6 @@ export {
     sectionContent,
     topicList,
     quizController,
+    quizResultController,
     userDashboardController,
 };

@@ -35,4 +35,16 @@ export const getTopics = async (topicsString) => {
     return { topics, topicIds };
 };
 
-export default { getAllTopics };
+export const getTopicByName = async (name) => {
+    try {
+        const topic = await Topic.findOne({
+            name: name?.toLowerCase()?.trim(),
+        });
+
+        return topic;
+    } catch (error) {
+        return null;
+    }
+};
+
+export default { getAllTopics, getTopics, getTopicByName };

@@ -122,7 +122,11 @@ const purchaseSlice = createSlice({
             })
             .addCase(addCoursesToCart.fulfilled, (state, action) => {
                 state.loading = false;
-                state.cartData = action.payload;
+                if (state.cartData) {
+                    state.cartData.push(action.payload);
+                } else {
+                    state.cartData = action.payload;
+                }
                 state.error = null;
             })
             .addCase(addCoursesToCart.rejected, (state, action) => {

@@ -28,8 +28,11 @@ import UserDashboardCards from './User/UserDashboardCards';
 import Container from './Misc/Container';
 import RecommendedVideos from './PublicVideo/RecommendedVideos';
 import VideosTabsSection from './PublicVideo/VideosTabsSection';
+import CartComponent from './CustomUI/CartComponent';
+
 export {
     VideosTabsSection,
+    CartComponent,
     RecommendedVideos,
     UserDashboardCards,
     DashboardGoalsCard,

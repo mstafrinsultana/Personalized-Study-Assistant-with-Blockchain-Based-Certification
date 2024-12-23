@@ -57,7 +57,6 @@ function SetGoal({ firstTime = false, goal }) {
     }
 
     function updateUserGoal() {
-        console.log('updateUserGoal');
         const topics = topicsRef.current.getSelectedValues().join(',');
         const name = nameRef.current.value;
         const data = { name, topics };
@@ -78,11 +77,19 @@ function SetGoal({ firstTime = false, goal }) {
             <Card x-chunk="dashboard-04-chunk-1" className="p-8 pb-4">
                 <CardHeader>
                     <CardTitle className="text-3xl font-bold flex">
-                        <span>{firstTime ? 'Set Goal' : 'Set a New Goal'}</span>
+                        <span>
+                            {goal
+                                ? 'Update Goal'
+                                : firstTime
+                                ? 'Set Goal'
+                                : 'Set a New Goal'}
+                        </span>
                         <Goal className="size-8 ml-2" />
                     </CardTitle>
                     <CardDescription>
-                        {firstTime
+                        {goal
+                            ? 'Update Your Learning Goal to Continue...'
+                            : firstTime
                             ? 'Set Your First Learning Goal to Start with...'
                             : 'Set Your Learning Goal to Start with...'}
                     </CardDescription>
