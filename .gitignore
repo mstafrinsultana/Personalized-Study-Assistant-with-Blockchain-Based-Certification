@@ -1,0 +1,10 @@
+.env 
+# Environment variables
+.env
+
+# SSH Keys
+*.pub
+
+# Lock files
+*.lock
+
